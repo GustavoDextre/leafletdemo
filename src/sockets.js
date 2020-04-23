@@ -5,7 +5,7 @@ module.exports = io => {
   
       socket.on('userCoordinates', (coords) => {
         console.log(coords);
-        socket.emit('newUserCoordinates', coords);
+        socket.broadcast.emit('newUserCoordinates', coords);
       });
     });
   };

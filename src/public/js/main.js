@@ -24,8 +24,6 @@ function selectMap(){
     }
 }
 
-var texto = 'Usted está aquí'
-
 // Socket Io
 const socket = io.connect();
 
@@ -39,6 +37,15 @@ const user = () => {
           Swal.fire(
               `Bienvenido ${result.value}`
             )
+
+            map.locate({enableHighAccuracy: true});
+            map.on('locationfound', (e) => {
+            const coords = [e.latlng.lat, e.latlng.lng];
+            const newMarker = L.marker(coords);
+            newMarker.bindPopup(result.value);
+            map.addLayer(newMarker);
+            socket.emit('userCoordinates', e.latlng);
+            });
       }
   });
 }
@@ -49,20 +56,13 @@ marker.bindPopup('Hello There!');
 map.addLayer(marker); */
 
 // Geolocation
-map.locate({enableHighAccuracy: true});
-map.on('locationfound', (e) => {
-const coords = [e.latlng.lat, e.latlng.lng];
-const newMarker = L.marker(coords);
-newMarker.bindPopup(texto);
-map.addLayer(newMarker);
-socket.emit('userCoordinates', e.latlng);
-});
+
 
 // socket new User connected
 socket.on('newUserCoordinates', (coords) => {
   console.log(coords);
   const newUserMarker = L.marker([coords.lat, coords.lng]);
-  newUserMarker.bindPopup('New User!');
+  newUserMarker.bindPopup('Nuevo Usuario!');
   map.addLayer(newUserMarker);
 }); 
 
