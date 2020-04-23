@@ -3,9 +3,9 @@ module.exports = io => {
   
       console.log('Nuevo usuario conectado');
   
-      socket.on('userCoordinates', (coords) => {
-        console.log(coords);
-        socket.broadcast.emit('newUserCoordinates', coords);
+      socket.on('userCoordinates', (data) => {
+        console.log(data.latlng, data.nombre);
+        socket.broadcast.emit('newUserCoordinates', data);
       });
     });
   };

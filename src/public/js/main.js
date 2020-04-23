@@ -2,7 +2,8 @@ var map = L.map('map-template').setView([-12.0630149, -77.0296179], 10);
 
 const openStreetURL = 'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const stamenTonerURL = 'http://a.tile.stamen.com/toner/{z}/{x}/{y}.png';
-const darkMatterURL = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png';
+const darkMatterURL = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+const cartoLightURL = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
 
 var tile = L.tileLayer(openStreetURL);
 
@@ -15,11 +16,15 @@ function selectMap(){
         map.addLayer(tile);
     }
     if(mappingValue == 2){
-        tile = L.tileLayer(stamenTonerURL);
+        tile = L.tileLayer(cartoLightURL);
         map.addLayer(tile);
     }
     if(mappingValue == 3){
         tile = L.tileLayer(darkMatterURL);
+        map.addLayer(tile);
+    }
+    if(mappingValue == 4){
+        tile = L.tileLayer(stamenTonerURL);
         map.addLayer(tile);
     }
 }
@@ -44,7 +49,8 @@ const user = () => {
             const newMarker = L.marker(coords);
             newMarker.bindPopup(result.value);
             map.addLayer(newMarker);
-            socket.emit('userCoordinates', e.latlng);
+            socket.emit('userCoordinates', {latlng: e.latlng, nombre: result.value});
+
             });
       }
   });
@@ -59,10 +65,10 @@ map.addLayer(marker); */
 
 
 // socket new User connected
-socket.on('newUserCoordinates', (coords) => {
-  console.log(coords);
-  const newUserMarker = L.marker([coords.lat, coords.lng]);
-  newUserMarker.bindPopup('Nuevo Usuario!');
+socket.on('newUserCoordinates', (data) => {
+  console.log(data.latlng, data.nombre);
+  const newUserMarker = L.marker([data.latlng.lat+1, data.latlng.lng+1]);
+  newUserMarker.bindPopup(data.nombre);
   map.addLayer(newUserMarker);
 }); 
 
