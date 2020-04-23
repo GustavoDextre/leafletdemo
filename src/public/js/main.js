@@ -61,13 +61,7 @@ socket.emit('userCoordinates', e.latlng);
 // socket new User connected
 socket.on('newUserCoordinates', (coords) => {
   console.log(coords);
-  const userIcon = L.icon({
-    iconUrl: '/img/icon2.png',
-    iconSize: [38, 42],
-  })
-  const newUserMarker = L.marker([coords.lat, coords.lng], {
-    icon: userIcon 
-  });
+  const newUserMarker = L.marker([coords.lat, coords.lng]);
   newUserMarker.bindPopup('New User!');
   map.addLayer(newUserMarker);
 }); 
