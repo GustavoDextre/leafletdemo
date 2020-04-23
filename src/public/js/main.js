@@ -67,7 +67,7 @@ map.addLayer(marker); */
 // socket new User connected
 socket.on('newUserCoordinates', (data) => {
   console.log(data.latlng, data.nombre);
-  const newUserMarker = L.marker([data.latlng.lat+1, data.latlng.lng+1]);
+  const newUserMarker = L.marker([data.latlng.lat, data.latlng.lng]);
   newUserMarker.bindPopup(data.nombre);
   map.addLayer(newUserMarker);
 }); 
