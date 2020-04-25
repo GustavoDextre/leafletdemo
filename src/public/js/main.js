@@ -57,7 +57,7 @@ const user = () => {
                 //console.log(data.latlng, data.nombre);
               
                 
-                        var newUserMarker = L.marker([data.latlng.lat + 1, data.latlng.lng + 1]);
+                        var newUserMarker = L.marker([data.latlng.lat, data.latlng.lng]);
                         newUserMarker.bindPopup(data.nombre);
                         map.addLayer(newUserMarker);
                   
