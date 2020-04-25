@@ -78,7 +78,7 @@ socket.on('oldUserCoordinates', (data) => {
     //console.log(data.latlng, data.nombre);
   
     for(let i=0; i<data.length; i++){
-      var newUserMarker = L.marker([data[i].latitud + 1, data[i].longitud + 1]);
+      var newUserMarker = L.marker([data[i].latitud, data[i].longitud]);
       newUserMarker.bindPopup(data[i].nombre);
       map.addLayer(newUserMarker);
     }
