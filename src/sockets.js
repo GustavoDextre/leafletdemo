@@ -1,7 +1,7 @@
-const { DB_NAME, COLLECTION_NAME, MONGO_URI } = require("../config");
+const { DB_NAME, COLLECTION_NAME, MONGO_URI2 } = require("../config");
 const { CoordsModel } = require("../models");
 var MongoClient = require('mongodb').MongoClient;
-var url = MONGO_URI;
+var url = MONGO_URI2;
 
 module.exports = io => {
 
@@ -49,7 +49,7 @@ module.exports = io => {
           dbo.collection(COLLECTION_NAME).find({}).toArray(async function(err, result) {
             if (err) throw err;
             console.log(result);
-            socket.broadcast.emit('newUserCoordinates', data);
+            socket.broadcast.emit('newUserCoordinates', result);
             socket.emit('oldUserCoordinates', result);
             db.close();
           });
