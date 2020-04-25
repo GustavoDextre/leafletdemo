@@ -1,8 +1,10 @@
 const express = require('express');
+const mongoose = require("mongoose");
 const http = require('http');
 const socketIO = require('socket.io');
 const path = require('path');
-const { PORT } = require("../config");
+const { PORT, MONGO_URI } = require("../config");
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true });
 const { MapaRouter } = require("../routes");
 
 const app = express();

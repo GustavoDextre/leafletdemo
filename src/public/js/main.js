@@ -45,31 +45,46 @@ const user = () => {
 
             map.locate({enableHighAccuracy: true});
             map.on('locationfound', (e) => {
-            const coords = [e.latlng.lat, e.latlng.lng];
-            const newMarker = L.marker(coords);
-            newMarker.bindPopup(result.value);
-            map.addLayer(newMarker);
-            socket.emit('userCoordinates', {latlng: e.latlng, nombre: result.value});
+                const coords = [e.latlng.lat, e.latlng.lng];
+                const newMarker = L.marker(coords);
+                newMarker.bindPopup(result.value);
+                map.addLayer(newMarker);
+                socket.emit('userCoordinates', {latlng: e.latlng, nombre: result.value});
 
             });
+
+            socket.on('newUserCoordinates', (data) => {
+                //console.log(data.latlng, data.nombre);
+              
+                
+                        var newUserMarker = L.marker([data.latlng.lat + 1, data.latlng.lng + 1]);
+                        newUserMarker.bindPopup(data.nombre);
+                        map.addLayer(newUserMarker);
+                  
+                
+                
+              }); 
+
       }
   });
 }
-
-// Marker
-/* const marker = L.marker([-12.0630149, -77.0296179]); // kiev, ukraine
-marker.bindPopup('Hello There!');
-map.addLayer(marker); */
 
 // Geolocation
 
 
 // socket new User connected
-socket.on('newUserCoordinates', (data) => {
-  console.log(data.latlng, data.nombre);
-  const newUserMarker = L.marker([data.latlng.lat, data.latlng.lng]);
-  newUserMarker.bindPopup(data.nombre);
-  map.addLayer(newUserMarker);
+
+socket.on('oldUserCoordinates', (data) => {
+    //console.log(data.latlng, data.nombre);
+  
+    for(let i=0; i<data.length; i++){
+      var newUserMarker = L.marker([data[i].latitud + 1, data[i].longitud + 1]);
+      newUserMarker.bindPopup(data[i].nombre);
+      map.addLayer(newUserMarker);
+    }
+    
 }); 
+
+
 
 map.addLayer(tile);
